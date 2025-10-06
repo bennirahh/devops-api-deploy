@@ -2,7 +2,7 @@ import express from "express";
 import product from "./routes/product.js"; 
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 app.get("/", (req, res) => {
   res.json({ message: "Bienvenue sur notre API en Node.js (version moderne)" });
