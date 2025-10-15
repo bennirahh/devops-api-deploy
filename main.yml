@@ -1,0 +1,194 @@
+---
+- name: Deploy api + Bdd
+  hosts: vmsncf
+  become: yes
+  tasks: 
+    - name: Update all ubuntu packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Install ACL tools
+      become: yes
+      apt:
+        name: acl
+        state: present
+        update_cache: yes
+      
+    - name: Install Node.Js with apt
+      ansible.builtin.apt:
+        name: nodejs
+        state: present
+        
+    - name: Check if pnpm exists
+      ansible.builtin.stat:
+        path: /usr/bin/pnpm      
+      register: pnpm_bin
+
+    - name: Install pnpm with npm
+      community.general.npm:
+        name: pnpm
+        state: present
+        global: true
+      when: not pnpm_bin.stat.exists
+
+    - name: Install Python PostgreSQL driver (psycopg2)
+      ansible.builtin.apt:
+        name: python3-psycopg2
+        state: present
+
+    - name: Check if repo already exists
+      ansible.builtin.stat:
+        path: /opt/api/.git
+      register: repo_exists
+
+    - name: Example clone of a single branch
+      ansible.builtin.git:
+        repo: git@github.com:bennirahh/api-node-ansible.git
+        dest: /opt/api/
+        key_file: /home/ubuntu/.ssh/github
+        accept_hostkey: yes
+        single_branch: yes
+        version: main
+      when: not repo_exists.stat.exists
+    
+    - name: Create group api
+      ansible.builtin.group:
+        name: api
+    
+    - name: Create user api
+      ansible.builtin.user:
+        name: apiUser
+        group: api
+    
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /opt/api/
+        owner: apiUser
+        group: api
+        mode: '0755'
+        recurse: yes   #  Applique aussi les droits à tout le contenu du dossier fichiers et sous-dossiers
+
+    - name: Install postgresql
+      ansible.builtin.apt:
+        name: postgresql
+        state: present
+    
+    - name: Allow local access for the application user
+      ansible.builtin.lineinfile:
+        path: /etc/postgresql/16/main/pg_hba.conf     
+        line: "host    all    bennirah    127.0.0.1/32    md5"
+        insertafter: EOF
+        state: present
+
+    - name: Secure postgresql to listen only on localhost
+      become_user: root
+      ansible.builtin.lineinfile:
+        path: /etc/postgresql/16/main/postgresql.conf
+        regexp: '^#?listen_addresses\s*='
+        line: "listen_addresses = '127.0.0.1'"
+        state: present
+
+    - name: Reliad postgresql configuration
+      become_user: root
+      ansible.builtin.command: systemctl reload postgresql
+      changed_when: false
+
+    - name: Create user postgresql
+      become_user: postgres
+      community.postgresql.postgresql_user:
+        name: bennirah
+        password: bennirah    
+        state: present
+        encrypted: true  
+    
+    - name: Create database aansible (local) 
+      become_user: postgres
+      community.postgresql.postgresql_db:
+        name: aansible
+        owner: bennirah
+        comment: "db for my api"
+        login_unix_socket: /var/run/postgresql
+        
+    - name: Create table for database aansible
+      become_user: postgres
+      community.postgresql.postgresql_query:
+        db: aansible
+        query: |
+          CREATE TABLE IF NOT EXISTS products (
+            id integer generated always as identity primary key,
+            name text,
+            price_cents integer
+          );
+        login_unix_socket: /var/run/postgresql
+        
+    - name: Insert data into products table
+    
+      become_user: postgres
+      community.postgresql.postgresql_query:     
+        db: aansible
+        query: |
+          INSERT INTO products (name, price_cents)
+          VALUES 
+            ('Café', 250),
+            ('Croissant', 180),
+            ('Sandwich', 550)
+          ON CONFLICT DO NOTHING;
+
+    - name: Create apiuser
+      become: yes
+      ansible.builtin.user:
+        name: apiuser
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Ensure /opt/api is owned by apiuser
+      become: yes
+      ansible.builtin.file:
+        path: /opt/api
+        state: directory
+        owner: apiuser
+        group: apiuser
+        recurse: yes
+
+    - name: Enable pnpm
+      become_user: apiuser
+      command: corepack enable
+      environment:
+        COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
+
+    - name: Pnpm i
+      become_user: apiuser
+      ansible.builtin.command:
+        chdir: /opt/api
+        cmd: pnpm install --frozen-lockfile
+    
+    - name: Create .env with environment variables
+      become_user: apiuser
+      ansible.builtin.copy:    
+        dest: /opt/api/.env
+        content: |
+          DB_HOST=127.0.0.1
+          DB_PORT=5432
+          DB_USER=bennirah
+          DB_PASSWORD=bennirah
+          DB_NAME=aansible
+          # Serveur web
+          PORT=3000
+          HOST=127.0.0.1
+        mode: '0600'
+    - name: Start Api 
+      become_user: apiuser
+      shell: |
+        cd /opt/api
+        nohup pnpm start > /opt/api/api.log 2>&1 &
+    
+    - name: Show last lines of API log
+      become_user: apiuser
+      ansible.builtin.shell: tail -n 20 /opt/api/api.log
+      register: api_log
+
+
+    - name: Display API log output
+      debug:
+        var: api_log.stdout
