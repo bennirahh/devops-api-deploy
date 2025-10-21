@@ -77,7 +77,7 @@
     - name: Allow local access for the application user
       ansible.builtin.lineinfile:
         path: /etc/postgresql/16/main/pg_hba.conf     
-        line: "host    all    bennirah    127.0.0.1/32    md5"
+        line: "host    all    {{ vault_db_user }}    127.0.0.1/32    md5"
         insertafter: EOF
         state: present
 
@@ -86,7 +86,7 @@
       ansible.builtin.lineinfile:
         path: /etc/postgresql/16/main/postgresql.conf
         regexp: '^#?listen_addresses\s*='
-        line: "listen_addresses = '127.0.0.1'"
+        line: "listen_addresses = '{{ vault_db_host }}'"
         state: present
 
     - name: Reliad postgresql configuration
@@ -97,23 +97,22 @@
     - name: Create user postgresql
       become_user: postgres
       community.postgresql.postgresql_user:
-        name: bennirah
-        password: bennirah    
+        name: "{{ vault_db_user }}"
+        password: "{{ vault_db_password }}"     
         state: present
-        encrypted: true  
     
     - name: Create database aansible (local) 
       become_user: postgres
       community.postgresql.postgresql_db:
-        name: aansible
-        owner: bennirah
+        name: "{{ vault_db_name }}"
+        owner: "{{ vault_db_user }}"
         comment: "db for my api"
         login_unix_socket: /var/run/postgresql
         
     - name: Create table for database aansible
       become_user: postgres
       community.postgresql.postgresql_query:
-        db: aansible
+        db: "{{ vault_db_name }}"
         query: |
           CREATE TABLE IF NOT EXISTS products (
             id integer generated always as identity primary key,
@@ -126,7 +125,7 @@
     
       become_user: postgres
       community.postgresql.postgresql_query:     
-        db: aansible
+        db: "{{ vault_db_name }}"
         query: |
           INSERT INTO products (name, price_cents)
           VALUES 
