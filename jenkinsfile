@@ -19,8 +19,7 @@ pipeline {
             export ANSIBLE_HOST_KEY_CHECKING=False
             echo "=== Lancement du playbook Ansible ==="
             ansible --version
-            ansible-playbook -i ansible/inventory.yml ansible/main.yml
-          '''
+            ansible-playbook -i inventory/hosts.ini main.yml '''
         }
       }
     }
