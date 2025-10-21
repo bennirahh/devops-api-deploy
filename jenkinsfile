@@ -11,20 +11,23 @@ pipeline {
     }
 
     stage('Run Ansible') {
-       steps {
-            sshagent(credentials: ['ansible-hosts-key']) {
-            sh '''
-                set -e
-                cd "$WORKSPACE"
-                export ANSIBLE_HOST_KEY_CHECKING=False
-                ansible-playbook -i ansible/inventory.yml ansible/main.yml
-            '''
-    }
+      steps {
+        sshagent(credentials: ['ansible-hosts-key']) {
+          sh '''
+            set -e
+            cd "$WORKSPACE"
+            export ANSIBLE_HOST_KEY_CHECKING=False
+            echo "=== Lancement du playbook Ansible ==="
+            ansible --version
+            ansible-playbook -i ansible/inventory.yml ansible/main.yml
+          '''
+        }
+      }
     }
   }
 
   post {
-    success { echo ' Déploiement réussi !' }
-    failure { echo ' Échec du déploiement !' }
+    success { echo '✅ Déploiement réussi !' }
+    failure { echo '❌ Échec du déploiement !' }
   }
 }
