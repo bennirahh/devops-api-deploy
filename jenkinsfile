@@ -11,18 +11,31 @@ pipeline {
     }
 
     stage('Run Ansible') {
-      steps {
-        sshagent(credentials: ['ansible-hosts-key']) {
-          sh '''
-            set -e
-            cd "$WORKSPACE"
-            export ANSIBLE_HOST_KEY_CHECKING=False
-            echo "=== Lancement du playbook Ansible ==="
-            ansible --version
-            ansible-playbook -i inventory/hosts.ini main.yml '''
-        }
+  steps {
+    sshagent(credentials: ['ansible-hosts-key']) {
+      withCredentials([string(credentialsId: 'ANSIBLE_VAULT_PASS', variable: 'VAULT_PASS')]) {
+        sh '''
+          set -euo pipefail
+          export ANSIBLE_HOST_KEY_CHECKING=False
+
+          echo "=== Lancement du playbook Ansible ==="
+          ansible --version
+
+          # Create a temp file with the vault password
+          VAULT_FILE="$(mktemp)"
+          printf "%s" "$VAULT_PASS" > "$VAULT_FILE"
+
+          # Run the playbook from the workspace (already the current dir)
+          ansible-playbook -i inventory/hosts.ini main.yml --vault-password-file "$VAULT_FILE"
+
+          # Cleanup
+          rm -f "$VAULT_FILE"
+        '''
       }
     }
+  }
+}
+
   }
 
   post {
