@@ -1,6 +1,7 @@
 
 
-# 🚀 Déploiement automatisé d’une API Express + PostgreSQL  
+# 🚀 Déploiement automatisé d’une API Express + PostgreSQL 
+
 ### (Ansible • Jenkins • GitLab • Oracle Cloud)
 
 **Objectif :** automatiser totalement le déploiement d’une API Node.js (Express) connectée à une base PostgreSQL, sur une VM Ubuntu hébergée chez Oracle Cloud, à l’aide d’un pipeline CI/CD complet.
@@ -19,8 +20,6 @@ Ce projet illustre comment j’ai mis en place un **pipeline d’intégration et
 ---
 
 
-
-
 **Points clés :**
 
 * Le **déploiement se déclenche manuellement** dans Jenkins (choix volontaire : certains clients préfèrent contrôler le “go” en prod).
@@ -33,6 +32,7 @@ Ce projet illustre comment j’ai mis en place un **pipeline d’intégration et
 ## 🖼️ Illustrations
 
 * **Structure du dépôt**
+
 <p align="center">
   <img src="docs/repo-structure.png" alt="Architecture du projet" width="400"/>
 </p>
@@ -42,6 +42,7 @@ Ce projet illustre comment j’ai mis en place un **pipeline d’intégration et
   ![](docs/jenkins-job.png)
 
 * **Architecture globale**
+
   <p align="center">
   <img src="docs/architecture.png" alt="Architecture du projet" width="400"/>
 </p>
