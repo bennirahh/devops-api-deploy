@@ -160,10 +160,11 @@ Les secrets (`vault_db_user`, `vault_db_password`, `vault_db_name`) sont stocké
 
 ## 💼 Expertise démontrée
 
-* Mise en œuvre d’un pipeline CI/CD complet (**GitLab → Jenkins → Ansible**) garantissant un déploiement automatisé et fiable  
+* Mise en œuvre d’un pipeline CI/CD complet (**GitLab → Jenkins → Ansible**) assurant un déploiement automatisé et maîtrisé  
+* Installation et configuration complète du serveur Ubuntu sur **Oracle Cloud**, incluant l’installation de **Jenkins via Docker** et la mise en place de l’environnement système  
 * Gestion sécurisée des secrets et variables via **Vault** et **Jenkins Credentials**  
-* Provisionnement et configuration d’une infrastructure Ubuntu sur **Oracle Cloud**  
-* Documentation technique claire et opérationnelle à destination des **équipes projets et clients**  
+* Déploiement de l’API Node.js (Express) et de **PostgreSQL** sur un environnement entièrement provisionné par **Ansible**  
+* Rédaction d’une documentation technique claire, destinée aux **équipes projets et clients** pour assurer la maintenabilité et la reproductibilité
 
 
 ---
@@ -196,9 +197,8 @@ HOST=127.0.0.1
 
 ## 🔗 Liens
 
-* **Auteur :** [Haris](https://www.harisbenlamri.me/)
-* **Portfolio :** à venir
-* **Article / LinkedIn :** à venir
+* **Auteur :** [Haris](https://github.com/bennirahh)
+* **Portfolio :** [Présent] (https://www.harisbenlamri.me/)
 * **Repo GitLab (prod réel)** : sur demande
 
 > ℹ️ Ce dépôt est une **vitrine** : certaines valeurs sont volontairement anonymisées (`<PLACEHOLDER>`).
