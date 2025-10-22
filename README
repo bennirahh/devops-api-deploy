@@ -207,3 +207,9 @@ HOST=127.0.0.1
 ### 🏁 Stack
 
 `Express` · `PostgreSQL` · `Ansible` · `Jenkins` · `GitLab` · `Oracle Cloud` · `Vault` · `pnpm`
+
+---
+[![GitHub stars](https://img.shields.io/github/stars/bennirahh/devops-api-deploy?style=flat-square)](https://github.com/bennirahh/devops-api-deploy/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/bennirahh/devops-api-deploy?style=flat-square)](https://github.com/bennirahh/devops-api-deploy/issues)
+[![Last commit](https://img.shields.io/github/last-commit/bennirahh/devops-api-deploy?style=flat-square)](https://github.com/bennirahh/devops-api-deploy/commits/main)
+[![License](https://img.shields.io/github/license/bennirahh/devops-api-deploy?style=flat-square)](LICENSE)
