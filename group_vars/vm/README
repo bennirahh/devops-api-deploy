@@ -1,0 +1,3 @@
+# Variables Ansible (Vault)
+Ce fichier `vault.yml` est chiffré via **Ansible Vault**.  
+Le mot de passe Vault est fourni dynamiquement par **Jenkins Credentials** lors du déploiement.

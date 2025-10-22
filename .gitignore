@@ -3,3 +3,33 @@ node_modules
 .env.*.local
 inventory/hosts.local.ini
 .DS_Store
+
+# secrets & artefacts
+.env
+*.pem
+*.key
+*.crt
+.vault_pass*
+.vscode
+.DS_Store
+
+# node
+node_modules
+npm-debug.log*
+pnpm-lock.yaml
+
+# ansible
+*.retry
+__pycache__/
+
+
+.env
+*.pem
+*.key
+*.crt
+.vault_pass*
+.vscode
+__pycache__/
+*.retry
+node_modules/
+pnpm-debug.log*
