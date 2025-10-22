@@ -198,7 +198,7 @@ HOST=127.0.0.1
 ## 🔗 Liens
 
 * **Auteur :** [Haris](https://github.com/bennirahh)
-* **Portfolio :** [Présent] (https://www.harisbenlamri.me/)
+* **Portfolio :** [Présent](https://www.harisbenlamri.me/)
 * **Repo GitLab (prod réel)** : sur demande
 
 > ℹ️ Ce dépôt est une **vitrine** : certaines valeurs sont volontairement anonymisées (`<PLACEHOLDER>`).
