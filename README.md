@@ -158,12 +158,13 @@ Les secrets (`vault_db_user`, `vault_db_password`, `vault_db_name`) sont stocké
 
 ---
 
-## 🧠 Ce que j’ai appris et démontré
+## 💼 Expertise démontrée
 
-* Conception d’un pipeline CI/CD complet (**GitLab → Jenkins → Ansible**)
-* Gestion des secrets et variables via **Vault + Credentials Jenkins**
-* Provisionnement d’un serveur Ubuntu **Oracle Cloud**
-* Documentation orientée **client, recruteur et équipe technique**
+* Mise en œuvre d’un pipeline CI/CD complet (**GitLab → Jenkins → Ansible**) garantissant un déploiement automatisé et fiable  
+* Gestion sécurisée des secrets et variables via **Vault** et **Jenkins Credentials**  
+* Provisionnement et configuration d’une infrastructure Ubuntu sur **Oracle Cloud**  
+* Documentation technique claire et opérationnelle à destination des **équipes projets et clients**  
+
 
 ---
 
@@ -195,7 +196,7 @@ HOST=127.0.0.1
 
 ## 🔗 Liens
 
-* **Auteur :** [<TON_NOM>](https://github.com/<TON_PSEUDO_GITHUB>)
+* **Auteur :** [Haris](https://www.harisbenlamri.me/)
 * **Portfolio :** à venir
 * **Article / LinkedIn :** à venir
 * **Repo GitLab (prod réel)** : sur demande
@@ -207,7 +208,7 @@ HOST=127.0.0.1
 
 ### 🏁 Stack
 
-`Express` · `PostgreSQL` · `Ansible` · `Jenkins` · `GitLab` · `Oracle Cloud` · `Vault` · `pnpm`
+`Express` · `PostgreSQL` · `Ansible` · `Jenkins` · `GitLab` · `Oracle Cloud` · `Vault` · `pnpm` · `Docker`
 
 ---
 [![GitHub stars](https://img.shields.io/github/stars/bennirahh/devops-api-deploy?style=flat-square)](https://github.com/bennirahh/devops-api-deploy/stargazers)
