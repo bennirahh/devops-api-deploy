@@ -1,5 +1,3 @@
-
-
 # 🚀 Déploiement automatisé d’une API Express + PostgreSQL 
 
 ### (Ansible • Jenkins • GitLab • Oracle Cloud)
@@ -22,7 +20,7 @@ Ce projet illustre comment j’ai mis en place un **pipeline d’intégration et
 
 **Points clés :**
 
-* Le **déploiement se déclenche manuellement** dans Jenkins (choix volontaire : certains clients préfèrent contrôler le “go” en prod).
+* Le **déploiement se déclenche manuellement** dans Jenkins (choix volontaire, certains clients préfèrent contrôler le “go” en prod).
 * Le mot de passe **Vault** est fourni depuis les **Credentials Jenkins**.
 * PostgreSQL fonctionne comme un **service système**, pas dans un conteneur Docker.
 * L’API Express tourne en tâche de fond (`nohup pnpm start`) et écrit ses logs dans `/opt/api/api.log`.
